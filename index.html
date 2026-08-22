@@ -25,14 +25,16 @@
         margin: 0;
         padding: 0;
       }
+      html {
+        scroll-behavior: smooth;
+      }
       body {
         background-color: var(--bg);
         color: var(--text);
         font-family: "Inter", sans-serif;
-        padding-top: 80px; /* Jarak agar konten tidak tertutup navbar */
+        padding-top: 80px;
       }
 
-      /* Navbar / Navigation Bar Style */
       .navbar {
         position: fixed;
         top: 20px;
@@ -41,7 +43,7 @@
         width: 90%;
         max-width: 900px;
         background: var(--card-bg);
-        backdrop-filter: blur(10px); /* Efek kaca transparan */
+        backdrop-filter: blur(10px);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -53,7 +55,7 @@
       .nav-logo {
         display: flex;
         align-items: center;
-        gap: 10px; /* Jarak antara gambar logo dan teks */
+        gap: 10px;
         font-family: "Fredoka", sans-serif;
         font-weight: 700;
         font-size: 1.2rem;
@@ -62,8 +64,8 @@
       }
 
       .nav-logo img {
-        height: 32px; /* Atur tinggi logo navbar sesuai selera (30px - 40px biasanya pas) */
-        width: auto; /* Menjaga proporsi gambar */
+        height: 32px;
+        width: auto;
       }
       .nav-links {
         display: flex;
@@ -96,7 +98,6 @@
         min-height: 60vh;
       }
 
-      /* ---- "Our Games" section label, matched to matcha palette ---- */
       .section-label {
         display: flex;
         align-items: center;
@@ -105,6 +106,7 @@
         margin: 0 auto 34px;
         max-width: 620px;
         padding: 0 24px;
+        scroll-margin-top: 100px;
       }
       .section-label::before,
       .section-label::after {
@@ -130,7 +132,6 @@
         margin-right: 8px;
       }
 
-      /* box-a recolored to match the matcha (light) palette above */
       .box-a {
         max-width: 620px;
         margin: 0 auto 60px;
@@ -150,7 +151,7 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        aspect-ratio: 16 / 9; /* landscape, seperti capsule/banner game di Steam & tampilan di HP */
+        aspect-ratio: 16 / 9;
         overflow: hidden;
       }
       .box-a .cover::after {
@@ -199,7 +200,6 @@
         margin: 0;
       }
 
-      /* ---- Game title link -> itch.io, prettified ---- */
       .box-a h3 a {
         display: inline-flex;
         align-items: center;
@@ -233,7 +233,6 @@
         transform: translate(1px, -1px);
       }
 
-      /* small "play on itch.io" caption under the title */
       .itch-caption {
         display: inline-flex;
         align-items: center;
@@ -315,7 +314,6 @@
         font-weight: 600;
       }
 
-      /* ---- Team member box ---- */
       .team-wrap {
         max-width: 620px;
         margin: 0 auto 80px;
@@ -365,7 +363,7 @@
         text-overflow: ellipsis;
       }
       .member-name .role-inline {
-        display: none; /* only shown on small screens, see media query below */
+        display: none;
         font-family: "Inter", sans-serif;
         font-weight: 400;
         font-size: 13px;
@@ -394,10 +392,10 @@
 
       @media (max-width: 480px) {
         .member-role {
-          display: none; /* pill chip hidden on small screens... */
+          display: none;
         }
         .member-name {
-          white-space: normal; /* ...role text shown inline next to the name instead */
+          white-space: normal;
         }
         .member-name .role-inline {
           display: inline;
@@ -474,7 +472,6 @@
     </style>
   </head>
   <body>
-    <!-- Navigation Bar -->
     <nav class="navbar">
       <a href="#" class="nav-logo">
         <img src="logo.png" alt="Matcha Studio Logo" />
