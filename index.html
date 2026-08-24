@@ -132,9 +132,25 @@
         margin-right: 8px;
       }
 
-      .box-a {
+      /* ---- Games grid (ready for multiple games) ---- */
+      .games-grid {
         max-width: 620px;
         margin: 0 auto 60px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .games-grid.has-multiple {
+        max-width: 980px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 760px) {
+        .games-grid.has-multiple {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .box-a {
         display: flex;
         flex-direction: column;
         background: var(--card-bg-solid);
@@ -164,6 +180,7 @@
           transparent 60%
         );
         pointer-events: none;
+        z-index: 2;
       }
       .box-a .cover .glyph {
         font-family: "Press Start 2P", monospace;
@@ -179,6 +196,53 @@
         display: block;
         position: relative;
         z-index: 1;
+        transition: transform 0.5s ease;
+      }
+      .box-a .cover:hover img {
+        transform: scale(1.06);
+      }
+
+      /* Play overlay on hover */
+      .box-a .cover .play-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(30, 64, 39, 0);
+        opacity: 0;
+        transition:
+          opacity 0.3s ease,
+          background 0.3s ease;
+        pointer-events: none;
+      }
+      .box-a .cover:hover .play-overlay {
+        opacity: 1;
+        background: rgba(30, 64, 39, 0.35);
+        pointer-events: auto;
+      }
+      .box-a .cover .play-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(242, 251, 243, 0.95);
+        color: var(--accent-deep);
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 13.5px;
+        padding: 9px 18px;
+        border-radius: 30px;
+        transform: translateY(6px);
+        transition: transform 0.3s ease;
+      }
+      .box-a .cover:hover .play-pill {
+        transform: translateY(0);
+      }
+      .box-a .cover .play-pill svg {
+        width: 12px;
+        height: 12px;
+        fill: var(--accent-deep);
       }
 
       .box-a .content {
@@ -268,10 +332,173 @@
 
       .box-a .desc {
         color: var(--text-dim);
-        font-size: 13.5px;
+        font-size: 16px;
         margin-top: 12px;
         max-width: 50ch;
         line-height: 1.6;
+      }
+
+      /* ---- Genre pills ---- */
+      .genre-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+      }
+      .genre-pill {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        font-weight: 500;
+        padding: 4px 11px;
+        border-radius: 20px;
+        border: 1px solid transparent;
+      }
+      .genre-pill.g-vn {
+        color: var(--accent-deep);
+        background: rgba(46, 125, 79, 0.1);
+        border-color: rgba(46, 125, 79, 0.3);
+      }
+      .genre-pill.g-horror {
+        color: #7a2e2e;
+        background: rgba(160, 46, 46, 0.08);
+        border-color: rgba(160, 46, 46, 0.25);
+      }
+
+      /* ---- Screenshot gallery ---- */
+      .gallery {
+        margin-top: 18px;
+      }
+      .gallery-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.06em;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .gallery-strip {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scroll-snap-type: x proximity;
+      }
+      .gallery-strip::-webkit-scrollbar {
+        height: 6px;
+      }
+      .gallery-strip::-webkit-scrollbar-thumb {
+        background: rgba(46, 125, 79, 0.3);
+        border-radius: 10px;
+      }
+      .gallery-strip button {
+        all: unset;
+        cursor: pointer;
+        flex: 0 0 auto;
+        width: 108px;
+        aspect-ratio: 16 / 10;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        scroll-snap-align: start;
+        position: relative;
+      }
+      .gallery-strip img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+      .gallery-strip button:hover img {
+        transform: scale(1.08);
+      }
+
+      /* Lightbox */
+      .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(20, 40, 26, 0.82);
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .lightbox.open {
+        display: flex;
+      }
+      .lightbox img {
+        max-width: min(90vw, 800px);
+        max-height: 82vh;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+      .lightbox-close {
+        all: unset;
+        cursor: pointer;
+        position: absolute;
+        top: 22px;
+        right: 26px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(242, 251, 243, 0.9);
+        color: var(--accent-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Inter", sans-serif;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      /* ---- Development progress ---- */
+      .progress-block {
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+      .progress-title {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.06em;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .progress-row {
+        display: grid;
+        grid-template-columns: 92px 1fr 34px;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 9px;
+      }
+      .progress-row:last-child {
+        margin-bottom: 0;
+      }
+      .progress-row .p-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .progress-row .p-track {
+        height: 7px;
+        background: rgba(56, 102, 66, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .progress-row .p-fill {
+        height: 100%;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #6fc281, var(--accent));
+        width: 0%;
+        transition: width 1s ease;
+      }
+      .progress-row .p-pct {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--text-dim);
+        text-align: right;
       }
 
       .box-a .stat-strip {
@@ -302,7 +529,7 @@
       }
       .box-a .credit-chip {
         font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
+        font-size: 12px;
         background: rgba(46, 125, 79, 0.07);
         border: 1px solid var(--line);
         padding: 5px 10px;
@@ -312,6 +539,43 @@
       .box-a .credit-chip b {
         color: var(--text);
         font-weight: 600;
+      }
+
+      /* ---- Coming soon placeholder card ---- */
+      .box-soon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+        border: 1.5px dashed rgba(56, 102, 66, 0.35);
+        border-radius: 14px;
+        padding: 40px 24px;
+        color: var(--text-dim);
+        min-height: 220px;
+      }
+      .box-soon .plus {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1.5px dashed rgba(56, 102, 66, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: var(--accent);
+      }
+      .box-soon .soon-title {
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 15.5px;
+        color: var(--text);
+      }
+      .box-soon .soon-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        max-width: 26ch;
       }
 
       .team-wrap {
@@ -492,64 +756,98 @@
       <span><span class="dot"></span>OUR GAMES</span>
     </div>
 
-    <div class="box-a">
-      <div class="cover">
-        <img
-          src="cover/looping-summer-time.png"
-          alt="The Looping Summer Time cover art"
-        />
-      </div>
-      <div class="content">
-        <div class="title-row">
-          <h3>
-            <a
-              href="https://matcha-studio.itch.io/the-looping-summer-end-demo"
-              target="_blank"
-              rel="noopener"
-            >
-              The Looping Summer Time
-              <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Z"
-                />
-                <path d="M5 5h6v2H7v10h10v-4h2v6H5V5Z" />
+    <div class="games-grid">
+      <div class="box-a">
+        <div class="cover">
+          <img
+            src="cover/looping-summer-time.png"
+            alt="The Looping Summer Time cover art"
+          />
+          <a
+            class="play-overlay"
+            href="https://matcha-studio.itch.io/the-looping-summer-end-demo"
+            target="_blank"
+            rel="noopener"
+            aria-label="Play the demo on itch.io"
+          >
+            <span class="play-pill">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l11-7L8 5Z" />
               </svg>
-            </a>
-          </h3>
-          <span class="badge">Demo Released</span>
+              Play Demo
+            </span>
+          </a>
         </div>
+        <div class="content">
+          <div class="title-row">
+            <h3>
+              <a
+                href="https://matcha-studio.itch.io/the-looping-summer-end-demo"
+                target="_blank"
+                rel="noopener"
+              >
+                The Looping Summer Time
+                <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Z"
+                  />
+                  <path d="M5 5h6v2H7v10h10v-4h2v6H5V5Z" />
+                </svg>
+              </a>
+            </h3>
+            <span class="badge">Demo Released</span>
+          </div>
 
-        <div class="itch-caption">▶ Play the demo on itch.io</div>
+          <div class="itch-caption">▶ Play the demo on itch.io</div>
 
-        <p class="desc">
-          A group of friends gets the chance to take a vacation together this
-          summer. Excited for a break from their everyday lives, they set off on
-          a journey to a beautiful island, ready to spend the summer making
-          unforgettable memories. Welcome to their summer vacation.
-        </p>
+          <p class="desc">
+            A group of friends gets the chance to take a vacation together this
+            summer. Excited for a break from their everyday lives, they set off
+            on a journey to a beautiful island, ready to spend the summer making
+            unforgettable memories. Welcome to their summer vacation.
+          </p>
 
-        <div class="stat-strip">
-          <div><b>Genre</b>Visual Novel, Horror</div>
-          <div><b>Platform</b>Microsoft Windows</div>
-          <div><b>Released</b>TBA</div>
-          <div><b>Engine</b>Ren'py</div>
-        </div>
+          <div class="genre-pills">
+            <span class="genre-pill g-horror">2D</span>
+            <span class="genre-pill g-horror">Visual Novel</span>
+            <span class="genre-pill g-horror">Story Rich</span>
+            <span class="genre-pill g-horror">Psychological Horror</span>
+            <span class="genre-pill g-horror">Mystery</span>
+          </div>
 
-        <div class="credits-row">
-          <span class="credit-chip"
-            ><b>Programmer</b> · Muhammad Mulki R, dandandanwowo</span
-          >
-          <span class="credit-chip"><b>Art</b> · Kamal Athoillah</span>
-          <span class="credit-chip"><b>Writer</b> · Denzel F.A</span>
-          <span class="credit-chip"
-            ><b>Playtest</b> · Muhammad Fahlevi, Muhammad Mulki R</span
-          >
-          <span class="credit-chip"
-            ><b>English Translate</b> · Julita Aishah</span
-          >
+          <div class="stat-strip">
+            <div><b>Platform</b>Microsoft Windows</div>
+            <div><b>Release Date</b>TBA</div>
+            <div><b>Engine</b>Ren'py</div>
+          </div>
+          <br />
+          <div class="title-row">
+            <h2>Game Credits</h2>
+          </div>
+          <div class="credits-row">
+            <span class="credit-chip"
+              ><b>Programmer</b> · Muhammad Mulki R, dandandanwowo</span
+            >
+            <span class="credit-chip"><b>Art</b> · Kamal Athoillah</span>
+            <span class="credit-chip"><b>Writer</b> · Denzel F.A</span>
+            <span class="credit-chip"
+              ><b>Playtest</b> · Muhammad Fahlevi, Muhammad Mulki R</span
+            >
+            <span class="credit-chip"
+              ><b>English Translate</b> · Julita Aishah</span
+            >
+          </div>
         </div>
       </div>
+
+      <!-- <div class="box-soon">
+        <div class="plus">+</div>
+        <div class="soon-sub">
+          Something new is brewing at the studio. Coming soon.
+        </div>
+      </div> -->
     </div>
+
     <div class="section-label" id="teams">
       <span><span class="dot"></span>OUR MAIN TEAM</span>
     </div>
