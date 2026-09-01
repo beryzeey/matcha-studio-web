@@ -5,962 +5,268 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matcha Studio</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="shortcut icon"
+      href="images/LOGO MATCHA STUDIO NO OUTLINE.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <style>
-      :root {
-        --bg: #b8e7be;
-        --text: #386642;
-        --text-dim: #4f7a58;
-        --card-bg: rgba(255, 255, 255, 0.6);
-        --card-bg-solid: #f2fbf3;
-        --line: rgba(56, 102, 66, 0.18);
-        --accent: #2e7d4f;
-        --accent-deep: #1e4027;
-      }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: "Inter", sans-serif;
-        padding-top: 80px;
-      }
-
-      .navbar {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 900px;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 24px;
-        border-radius: 50px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        z-index: 1000;
-      }
-      .nav-logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-family: "Fredoka", sans-serif;
-        font-weight: 700;
-        font-size: 1.2rem;
-        text-decoration: none;
-        color: var(--text);
-      }
-
-      .nav-logo img {
-        height: 32px;
-        width: auto;
-      }
-      .nav-links {
-        display: flex;
-        gap: 20px;
-        list-style: none;
-      }
-      .nav-links a {
-        text-decoration: none;
-        color: var(--text);
-        font-weight: 600;
-        font-size: 0.95rem;
-        transition: color 0.2s ease;
-      }
-      .nav-links a:hover {
-        color: #1e4027;
-      }
-
-      h1 {
-        font-family: "Fredoka", sans-serif;
-        max-width: 600px;
-        width: 90%;
-        margin: 1rem auto;
-      }
-      .first {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        min-height: 60vh;
-      }
-
-      .section-label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        margin: 0 auto 34px;
-        max-width: 620px;
-        padding: 0 24px;
-        scroll-margin-top: 100px;
-      }
-      .section-label::before,
-      .section-label::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: var(--line);
-      }
-      .section-label span {
-        font-family: "Fredoka", sans-serif;
-        font-weight: 600;
-        font-size: 0.95rem;
-        letter-spacing: 0.12em;
-        color: var(--accent-deep);
-        white-space: nowrap;
-      }
-      .section-label .dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-        display: inline-block;
-        margin-right: 8px;
-      }
-
-      /* ---- Games grid (ready for multiple games) ---- */
-      .games-grid {
-        max-width: 620px;
-        margin: 0 auto 60px;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-      .games-grid.has-multiple {
-        max-width: 980px;
-        grid-template-columns: repeat(2, 1fr);
-      }
-      @media (max-width: 760px) {
-        .games-grid.has-multiple {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .box-a {
-        display: flex;
-        flex-direction: column;
-        background: var(--card-bg-solid);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      }
-
-      .box-a .cover {
-        background: linear-gradient(155deg, #8fd39a, #2e7d4f);
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-      }
-      .box-a .cover::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          circle at 70% 25%,
-          rgba(255, 255, 255, 0.35),
-          transparent 60%
-        );
-        pointer-events: none;
-        z-index: 2;
-      }
-      .box-a .cover .glyph {
-        font-family: "Press Start 2P", monospace;
-        font-size: 34px;
-        color: rgba(255, 255, 255, 0.9);
-        position: relative;
-        z-index: 1;
-      }
-      .box-a .cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        position: relative;
-        z-index: 1;
-        transition: transform 0.5s ease;
-      }
-      .box-a .cover:hover img {
-        transform: scale(1.06);
-      }
-
-      /* Play overlay on hover */
-      .box-a .cover .play-overlay {
-        position: absolute;
-        inset: 0;
-        z-index: 3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(30, 64, 39, 0);
-        opacity: 0;
-        transition:
-          opacity 0.3s ease,
-          background 0.3s ease;
-        pointer-events: none;
-      }
-      .box-a .cover:hover .play-overlay {
-        opacity: 1;
-        background: rgba(30, 64, 39, 0.35);
-        pointer-events: auto;
-      }
-      .box-a .cover .play-pill {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(242, 251, 243, 0.95);
-        color: var(--accent-deep);
-        font-family: "Fredoka", sans-serif;
-        font-weight: 600;
-        font-size: 13.5px;
-        padding: 9px 18px;
-        border-radius: 30px;
-        transform: translateY(6px);
-        transition: transform 0.3s ease;
-      }
-      .box-a .cover:hover .play-pill {
-        transform: translateY(0);
-      }
-      .box-a .cover .play-pill svg {
-        width: 12px;
-        height: 12px;
-        fill: var(--accent-deep);
-      }
-
-      .box-a .content {
-        padding: 26px 28px;
-      }
-
-      .box-a .title-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-      .box-a h3 {
-        font-family: "Fredoka", sans-serif;
-        font-weight: 700;
-        font-size: 21px;
-        color: var(--text);
-        margin: 0;
-      }
-
-      .box-a h3 a {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        color: var(--text);
-        text-decoration: none;
-        border-bottom: 1px solid transparent;
-        padding-bottom: 1px;
-        transition:
-          color 0.2s ease,
-          border-color 0.2s ease;
-      }
-      .box-a h3 a:hover,
-      .box-a h3 a:focus-visible {
-        color: var(--accent-deep);
-        border-color: var(--accent);
-      }
-      .box-a h3 a .ext-icon {
-        width: 13px;
-        height: 13px;
-        fill: var(--accent);
-        opacity: 0.6;
-        flex-shrink: 0;
-        transition:
-          opacity 0.2s ease,
-          transform 0.2s ease;
-      }
-      .box-a h3 a:hover .ext-icon,
-      .box-a h3 a:focus-visible .ext-icon {
-        opacity: 1;
-        transform: translate(1px, -1px);
-      }
-
-      .itch-caption {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: 6px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--text-dim);
-      }
-      .itch-caption a {
-        color: var(--accent);
-        text-decoration: none;
-        border-bottom: 1px dashed rgba(46, 125, 79, 0.4);
-        transition:
-          color 0.2s ease,
-          border-color 0.2s ease;
-      }
-      .itch-caption a:hover,
-      .itch-caption a:focus-visible {
-        color: var(--accent-deep);
-        border-color: var(--accent-deep);
-      }
-
-      .box-a .badge {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
-        color: var(--accent);
-        border: 1px solid rgba(46, 125, 79, 0.35);
-        background: rgba(46, 125, 79, 0.08);
-        padding: 3px 9px;
-        border-radius: 20px;
-      }
-
-      .box-a .desc {
-        color: var(--text-dim);
-        font-size: 16px;
-        margin-top: 12px;
-        max-width: 50ch;
-        line-height: 1.6;
-      }
-
-      /* ---- Genre pills ---- */
-      .genre-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 14px;
-      }
-      .genre-pill {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
-        font-weight: 500;
-        padding: 4px 11px;
-        border-radius: 20px;
-        border: 1px solid transparent;
-      }
-      .genre-pill.g-vn {
-        color: var(--accent-deep);
-        background: rgba(46, 125, 79, 0.1);
-        border-color: rgba(46, 125, 79, 0.3);
-      }
-      .genre-pill.g-horror {
-        color: #7a2e2e;
-        background: rgba(160, 46, 46, 0.08);
-        border-color: rgba(160, 46, 46, 0.25);
-      }
-
-      /* ---- Screenshot gallery ---- */
-      .gallery {
-        margin-top: 18px;
-      }
-      .gallery-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
-        letter-spacing: 0.06em;
-        color: var(--text-dim);
-        text-transform: uppercase;
-        margin-bottom: 8px;
-      }
-      .gallery-strip {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        scroll-snap-type: x proximity;
-      }
-      .gallery-strip::-webkit-scrollbar {
-        height: 6px;
-      }
-      .gallery-strip::-webkit-scrollbar-thumb {
-        background: rgba(46, 125, 79, 0.3);
-        border-radius: 10px;
-      }
-      .gallery-strip button {
-        all: unset;
-        cursor: pointer;
-        flex: 0 0 auto;
-        width: 108px;
-        aspect-ratio: 16 / 10;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid var(--line);
-        scroll-snap-align: start;
-        position: relative;
-      }
-      .gallery-strip img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
-      }
-      .gallery-strip button:hover img {
-        transform: scale(1.08);
-      }
-
-      /* Lightbox */
-      .lightbox {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 2000;
-        background: rgba(20, 40, 26, 0.82);
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-      }
-      .lightbox.open {
-        display: flex;
-      }
-      .lightbox img {
-        max-width: min(90vw, 800px);
-        max-height: 82vh;
-        border-radius: 10px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      }
-      .lightbox-close {
-        all: unset;
-        cursor: pointer;
-        position: absolute;
-        top: 22px;
-        right: 26px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(242, 251, 243, 0.9);
-        color: var(--accent-deep);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Inter", sans-serif;
-        font-size: 20px;
-        line-height: 1;
-      }
-
-      /* ---- Development progress ---- */
-      .progress-block {
-        margin-top: 20px;
-        padding-top: 16px;
-        border-top: 1px solid var(--line);
-      }
-      .progress-title {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
-        letter-spacing: 0.06em;
-        color: var(--text-dim);
-        text-transform: uppercase;
-        margin-bottom: 12px;
-      }
-      .progress-row {
-        display: grid;
-        grid-template-columns: 92px 1fr 34px;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 9px;
-      }
-      .progress-row:last-child {
-        margin-bottom: 0;
-      }
-      .progress-row .p-label {
-        font-size: 12.5px;
-        font-weight: 600;
-        color: var(--text);
-      }
-      .progress-row .p-track {
-        height: 7px;
-        background: rgba(56, 102, 66, 0.1);
-        border-radius: 10px;
-        overflow: hidden;
-      }
-      .progress-row .p-fill {
-        height: 100%;
-        border-radius: 10px;
-        background: linear-gradient(90deg, #6fc281, var(--accent));
-        width: 0%;
-        transition: width 1s ease;
-      }
-      .progress-row .p-pct {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--text-dim);
-        text-align: right;
-      }
-
-      .box-a .stat-strip {
-        display: flex;
-        gap: 22px;
-        flex-wrap: wrap;
-        margin-top: 18px;
-        padding-top: 16px;
-        border-top: 1px solid var(--line);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--text-dim);
-      }
-      .box-a .stat-strip b {
-        display: block;
-        font-family: "Inter", sans-serif;
-        color: var(--text);
-        font-size: 12.5px;
-        font-weight: 600;
-        margin-bottom: 3px;
-      }
-
-      .box-a .credits-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 18px;
-      }
-      .box-a .credit-chip {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-        background: rgba(46, 125, 79, 0.07);
-        border: 1px solid var(--line);
-        padding: 5px 10px;
-        border-radius: 20px;
-        color: var(--text-dim);
-      }
-      .box-a .credit-chip b {
-        color: var(--text);
-        font-weight: 600;
-      }
-
-      /* ---- Coming soon placeholder card ---- */
-      .box-soon {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        text-align: center;
-        border: 1.5px dashed rgba(56, 102, 66, 0.35);
-        border-radius: 14px;
-        padding: 40px 24px;
-        color: var(--text-dim);
-        min-height: 220px;
-      }
-      .box-soon .plus {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1.5px dashed rgba(56, 102, 66, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        color: var(--accent);
-      }
-      .box-soon .soon-title {
-        font-family: "Fredoka", sans-serif;
-        font-weight: 600;
-        font-size: 15.5px;
-        color: var(--text);
-      }
-      .box-soon .soon-sub {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        max-width: 26ch;
-      }
-
-      .team-wrap {
-        max-width: 620px;
-        margin: 0 auto 80px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .member-box {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        background: var(--card-bg-solid);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 14px 18px;
-        transition:
-          border-color 0.2s ease,
-          transform 0.2s ease;
-      }
-      .member-box:hover {
-        border-color: var(--accent);
-        transform: translateY(-1px);
-      }
-      .member-avatar {
-        flex-shrink: 0;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        background: linear-gradient(155deg, #8fd39a, #2e7d4f);
-        color: #f2fbf3;
-        font-family: "Fredoka", sans-serif;
-        font-weight: 700;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .member-name {
-        flex: 1;
-        min-width: 0;
-        font-family: "Fredoka", sans-serif;
-        font-weight: 600;
-        font-size: 15.5px;
-        color: var(--text);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .member-name .role-inline {
-        display: none;
-        font-family: "Inter", sans-serif;
-        font-weight: 400;
-        font-size: 13px;
-        color: var(--text-dim);
-      }
-      .member-meta {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .member-role {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10.5px;
-        color: var(--accent);
-        background: rgba(46, 125, 79, 0.08);
-        border: 1px solid rgba(46, 125, 79, 0.3);
-        padding: 4px 10px;
-        border-radius: 20px;
-        white-space: nowrap;
-      }
-      .member-country {
-        font-size: 18px;
-        line-height: 1;
-      }
-
-      @media (max-width: 480px) {
-        .member-role {
-          display: none;
-        }
-        .member-name {
-          white-space: normal;
-        }
-        .member-name .role-inline {
-          display: inline;
-        }
-      }
-      .site-footer {
-        display: flex;
-        justify-content: center;
-        padding: 20px 24px 40px;
-      }
-      .footer-pill {
-        width: 100%;
-        max-width: 900px;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        border-radius: 30px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        padding: 22px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-      .footer-brand {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: "Fredoka", sans-serif;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--text);
-      }
-      .footer-copy {
-        font-family: "Inter", sans-serif;
-        font-size: 0.8rem;
-        color: var(--text-dim);
-      }
-      .footer-socials {
-        display: flex;
-        gap: 8px;
-      }
-      .footer-socials a {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent-deep);
-        background: rgba(46, 125, 79, 0.08);
-        transition:
-          background 0.2s ease,
-          transform 0.2s ease,
-          color 0.2s ease;
-      }
-      .footer-socials a:hover {
-        background: var(--accent);
-        color: #f2fbf3;
-        transform: translateY(-2px);
-      }
-      .footer-socials svg {
-        width: 17px;
-        height: 17px;
-        fill: currentColor;
-      }
-
-      @media (max-width: 560px) {
-        .footer-pill {
-          flex-direction: column;
-          text-align: center;
-        }
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
   </head>
   <body>
-    <nav class="navbar">
-      <a href="#" class="nav-logo">
-        <img src="logo.png" alt="Matcha Studio Logo" />
-        <span>Matcha Studio</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#games">Games</a></li>
-        <li><a href="#teams">Teams</a></li>
-      </ul>
-    </nav>
-
-    <section class="first">
-      <img src="logo.png" alt="Matcha Studio Logo" width="300px" />
-      <h1>We create visual novel games, done right with innovations. 💚</h1>
-    </section>
-
-    <div id="games" class="section-label">
-      <span><span class="dot"></span>OUR GAMES</span>
-    </div>
-
-    <div class="games-grid">
-      <div class="box-a">
-        <div class="cover">
-          <img
-            src="cover/looping-summer-time.png"
-            alt="The Looping Summer Time cover art"
-          />
-          <a
-            class="play-overlay"
-            href="https://matcha-studio.itch.io/the-looping-summer-end-demo"
-            target="_blank"
-            rel="noopener"
-            aria-label="Play the demo on itch.io"
-          >
-            <span class="play-pill">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7L8 5Z" />
-              </svg>
-              Play Demo
-            </span>
+    <nav class="navbar-container">
+      <div class="navbar">
+        <div class="left-navbar">
+          <a href="index.html" class="logo">
+            <img src="images/outline-logo.png" alt="" width="67px" />
+            <span id="logo-text">Matcha Studio</span>
           </a>
         </div>
-        <div class="content">
-          <div class="title-row">
-            <h3>
-              <a
-                href="https://matcha-studio.itch.io/the-looping-summer-end-demo"
-                target="_blank"
-                rel="noopener"
-              >
-                The Looping Summer Time
-                <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Z"
-                  />
-                  <path d="M5 5h6v2H7v10h10v-4h2v6H5V5Z" />
-                </svg>
-              </a>
-            </h3>
-            <span class="badge">Demo Released</span>
-          </div>
-
-          <div class="itch-caption">▶ Play the demo on itch.io</div>
-
-          <p class="desc">
-            A group of friends gets the chance to take a vacation together this
+        <div class="right-navbar">
+          <a href="#games">GAMES</a>
+          <a href="#teams">TEAMS</a>
+          <a href="#contact">CONTACT US</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="slider-container">
+        <div class="slider">
+          <img src="images/outline-logo.png" alt="" width="379px" />
+          <span
+            >We create visual novel games, done right with innovations. 💚</span
+          >
+        </div>
+      </div>
+      <div class="section-title" id="games">
+        <span>Our Official Games</span>
+      </div>
+    </div>
+    <div class="game-container">
+      <div class="box">
+        <div class="image-container">
+          <img
+            src="images/tlst-cover.png"
+            alt=""
+            style="border-radius: 20px 20px 0 0"
+          />
+        </div>
+        <div class="title-container">
+          <a href="https://matcha-studio.itch.io/the-looping-summer-end-demo">
+            <h3>The Looping Summer Time</h3>
+            <span>↗</span>
+          </a>
+          <span style="font-size: 14px">▶ Demo is available on itch.io</span>
+        </div>
+        <div class="decs-container">
+          <span
+            >A group of friends gets the chance to take a vacation together this
             summer. Excited for a break from their everyday lives, they set off
             on a journey to a beautiful island, ready to spend the summer making
-            unforgettable memories. Welcome to their summer vacation.
-          </p>
+            unforgettable memories. Welcome to their summer vacation!</span
+          >
+        </div>
+        <div class="small-box-container">
+          <div class="small-box">
+            <span>2D</span>
+          </div>
+          <div class="small-box">
+            <span>Visual Novel</span>
+          </div>
+          <div class="small-box">
+            <span>Story Rich</span>
+          </div>
+          <div class="small-box">
+            <span>Psychological Horror</span>
+          </div>
+          <div class="small-box">
+            <span>Mystery</span>
+          </div>
+        </div>
+        <div class="game-detail-container">
+          <div class="game-detail">
+            <span><b>Platform</b></span>
+            <span>Microsoft Windows</span>
+          </div>
+          <div class="game-detail">
+            <span><b>Release Date</b></span>
+            <span>TBA</span>
+          </div>
+          <div class="game-detail">
+            <span><b>Game Engine</b></span>
+            <span>Ren'py</span>
+          </div>
+        </div>
+        <div class="game-credit-container">
+          <div class="game-credit-title">
+            <span><b>Game Credits</b></span>
+          </div>
+          <div class="game-credit-detail-container">
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Game Director</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Muhammad Mulki R</span>
+              </div>
+            </div>
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Programming</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Muhammad Mulki R,</span>
+                <span>dandandanwowo</span>
+              </div>
+            </div>
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Main Artist</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Kamal Athoillah</span>
+              </div>
+            </div>
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Story Writter</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Denzel F.A</span>
+              </div>
+            </div>
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Quality Assurance</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Muhammad Fahlevi,</span>
+                <span>Muhammad Mulki R</span>
+              </div>
+            </div>
+            <div class="game-credit-detail">
+              <div class="game-credit-left">
+                <span><b>Translator Team</b></span>
+              </div>
+              <div class="game-credit-right">
+                <span>Julita Aishah (English)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title" id="teams">
+        <span>Meet the Matcha Team</span>
+      </div>
+      <br />
+      <div class="team-box">
+        <div class="right-team-box">
+          <span id="flag">🇮🇩</span>
+          <span class="team-box-name">MUHMMAD MULKI R</span>
+        </div>
+        <div class="left-team-box">
+          <span>Programmer</span>
+        </div>
+      </div>
+      <div class="team-box">
+        <div class="right-team-box">
+          <span id="flag">🇮🇩</span>
+          <span class="team-box-name">KAMAL ATHOILLAH</span>
+        </div>
+        <div class="left-team-box">
+          <span>Main Artist</span>
+        </div>
+      </div>
+      <div class="team-box">
+        <div class="right-team-box">
+          <span id="flag">🇮🇩</span>
+          <span class="team-box-name">DENZEL F.A</span>
+        </div>
+        <div class="left-team-box">
+          <span>Storyboard Writer</span>
+        </div>
+      </div>
+      <div class="team-box">
+        <div class="right-team-box">
+          <span id="flag">🇲🇾</span>
+          <span class="team-box-name">JULITA AISHAH</span>
+        </div>
+        <div class="left-team-box">
+          <span>English Translator</span>
+        </div>
+      </div>
+      <section class="contact-container" id="contact">
+        <div class="section-title">
+          <span>GET IN TOUCH</span>
+        </div>
 
-          <div class="genre-pills">
-            <span class="genre-pill g-horror">2D</span>
-            <span class="genre-pill g-horror">Visual Novel</span>
-            <span class="genre-pill g-horror">Story Rich</span>
-            <span class="genre-pill g-horror">Psychological Horror</span>
-            <span class="genre-pill g-horror">Mystery</span>
-          </div>
+        <div class="contact-box">
+          <span class="contact-title">Get in touch with matcha studio!</span>
 
-          <div class="stat-strip">
-            <div><b>Platform</b>Microsoft Windows</div>
-            <div><b>Release Date</b>TBA</div>
-            <div><b>Engine</b>Ren'py</div>
-          </div>
-          <br />
-          <div class="title-row">
-            <h2>Game Credits</h2>
-          </div>
-          <div class="credits-row">
-            <span class="credit-chip"
-              ><b>Programmer</b> · Muhammad Mulki R, dandandanwowo</span
+          <span class="contact-desc">
+            Have a questions, game feedback, collaboration idea, or just wanted
+            to say hi? Contact us below!</span
+          >
+
+          <div class="socials">
+            <a
+              href="https://www.instagram.com/matchastudio.dev/"
+              aria-label="Instagram"
+              target="_blank"
             >
-            <span class="credit-chip"><b>Art</b> · Kamal Athoillah</span>
-            <span class="credit-chip"><b>Writer</b> · Denzel F.A</span>
-            <span class="credit-chip"
-              ><b>Playtest</b> · Muhammad Fahlevi, Muhammad Mulki R</span
+              <i class="fab fa-instagram"></i>
+            </a>
+
+            <a
+              href="https://www.tiktok.com/@matchastudio_dev"
+              aria-label="TikTok"
+              target="_blank"
             >
-            <span class="credit-chip"
-              ><b>English Translate</b> · Julita Aishah</span
+              <i class="fab fa-tiktok"></i>
+            </a>
+
+            <a
+              href="https://www.youtube.com/@MatchaStudio_dev"
+              aria-label="YouTube"
+              target="_blank"
             >
+              <i class="fab fa-youtube"></i>
+            </a>
+
+            <a
+              href="https://x.com/mtchastudio_dev"
+              aria-label="Twitter"
+              target="_blank"
+            >
+              <i class="fab fa-twitter"></i>
+            </a>
           </div>
-        </div>
-      </div>
 
-      <!-- <div class="box-soon">
-        <div class="plus">+</div>
-        <div class="soon-sub">
-          Something new is brewing at the studio. Coming soon.
+          <span class="copyright">© 2026 Matcha Studio</span>
         </div>
-      </div> -->
+      </section>
     </div>
+    <script>
+      const navbar = document.querySelector(".navbar");
+      const ourGames = document.querySelector("#games");
 
-    <div class="section-label" id="teams">
-      <span><span class="dot"></span>OUR MAIN TEAM</span>
-    </div>
+      window.addEventListener("scroll", () => {
+        const sectionPosition = ourGames.getBoundingClientRect().top;
 
-    <div class="team-wrap">
-      <div class="member-box">
-        <div class="member-avatar">💻</div>
-        <div class="member-name">
-          Muhammad Mulki R
-          <span class="role-inline">(Director / Programmer)</span>
-        </div>
-        <div class="member-meta">
-          <span class="member-role">Director / Programmer</span>
-          <span class="member-country" title="Indonesia">🇮🇩</span>
-        </div>
-      </div>
-
-      <div class="member-box">
-        <div class="member-avatar">🎨</div>
-        <div class="member-name">
-          Kamal Athoillah
-          <span class="role-inline">(Main Artist / Character Design)</span>
-        </div>
-        <div class="member-meta">
-          <span class="member-role">Main Artist / Character Design</span>
-          <span class="member-country" title="Indonesia">🇮🇩</span>
-        </div>
-      </div>
-
-      <div class="member-box">
-        <div class="member-avatar">📝</div>
-        <div class="member-name">
-          Denzel F.A
-          <span class="role-inline">(Storyboard / Game Design)</span>
-        </div>
-        <div class="member-meta">
-          <span class="member-role">Storyboard / Game Design</span>
-          <span class="member-country" title="Indonesia">🇮🇩</span>
-        </div>
-      </div>
-
-      <div class="member-box">
-        <div class="member-avatar">🇬🇧</div>
-        <div class="member-name">
-          Julita Aishah
-          <span class="role-inline">(Translator, English)</span>
-        </div>
-        <div class="member-meta">
-          <span class="member-role">Translator (English)</span>
-          <span class="member-country" title="Malaysia">🇲🇾</span>
-        </div>
-      </div>
-    </div>
-    <footer class="site-footer">
-      <div class="footer-pill">
-        <div class="footer-brand">🌱 Matcha Studio</div>
-
-        <div class="footer-socials">
-          <a
-            href="https://www.tiktok.com/@matchastudio_dev"
-            aria-label="TikTok"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.1-2.79V9.4a6.1 6.1 0 1 0 5.3 6.05V8.83a7.6 7.6 0 0 0 4.4 1.4V6.99a4.5 4.5 0 0 1-4.4-4.99Z"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="https://www.instagram.com/matchastudio.dev/"
-            aria-label="Instagram"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.59 1.8c.46-.16 1.26-.35 2.43-.4C9.29 1.34 9.67 1.33 12 1.33Zm0 1.8c-3.15 0-3.5.01-4.74.07-.96.04-1.48.2-1.82.34-.46.18-.78.39-1.13.74-.35.35-.56.67-.74 1.13-.14.34-.3.86-.34 1.82-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.82.18.46.39.78.74 1.13.35.35.67.56 1.13.74.34.14.86.3 1.82.34 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.82-.34.46-.18.78-.39 1.13-.74.35-.35.56-.67.74-1.13.14-.34.3-.86.34-1.82.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.82a3.1 3.1 0 0 0-.74-1.13 3.1 3.1 0 0 0-1.13-.74c-.34-.14-.86-.3-1.82-.34C15.5 4.01 15.15 4 12 4Zm0 3.05a4.95 4.95 0 1 1 0 9.9 4.95 4.95 0 0 1 0-9.9Zm0 1.8a3.15 3.15 0 1 0 0 6.3 3.15 3.15 0 0 0 0-6.3Zm5.16-1.98a1.16 1.16 0 1 1-2.31 0 1.16 1.16 0 0 1 2.31 0Z"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="https://x.com/mtchastudio_dev"
-            aria-label="X (Twitter)"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.24 3H21l-6.4 7.32L22.2 21h-6.24l-4.9-6.4L4.4 21H1.6l6.86-7.84L1 3h6.4l4.44 5.86L18.24 3Zm-1.1 16.2h1.73L7.94 4.7H6.08l11.06 14.5Z"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="https://www.youtube.com/@matchastudio_dev"
-            aria-label="YouTube"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M23.5 6.9a3 3 0 0 0-2.11-2.13C19.5 4.2 12 4.2 12 4.2s-7.5 0-9.39.57A3 3 0 0 0 .5 6.9 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.1 3 3 0 0 0 2.11 2.13C4.5 19.8 12 19.8 12 19.8s7.5 0 9.39-.57A3 3 0 0 0 23.5 17.1 31 31 0 0 0 24 12a31 31 0 0 0-.5-5.1ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"
-              />
-            </svg>
-          </a>
-        </div>
-
-        <div class="footer-copy">© 2026 Matcha Studio</div>
-      </div>
-    </footer>
+        if (sectionPosition <= 80) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
   </body>
 </html>
